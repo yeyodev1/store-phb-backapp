@@ -23,9 +23,11 @@ async function main() {
   }
 
   for (const p of seedProducts) {
+    // Product photos live in the frontend at /public/img/products/<slug>.jpg
+    const images = [`/img/products/${p.slug}.jpg`];
     await Product.findOneAndUpdate(
       { slug: p.slug },
-      { $set: { ...p, category: categoryId[p.categorySlug] } },
+      { $set: { ...p, images, category: categoryId[p.categorySlug] } },
       { new: true, upsert: true }
     );
     console.log(`Product upserted: ${p.name}`);
