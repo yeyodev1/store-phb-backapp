@@ -10,11 +10,15 @@ const whitelist = [
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:8101",
-];
+  "https://store.powerhousebiotech.com",
+  "https://www.powerhousebiotech.com",
+  process.env.FRONTEND_URL || "",
+].filter(Boolean);
 
 const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
-    if (!origin || whitelist.includes(origin)) {
+    // Allow no-origin (curl/server), the whitelist, and any *.vercel.app preview.
+    if (!origin || whitelist.includes(origin) || /\.vercel\.app$/.test(new URL(origin).hostname)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
