@@ -30,6 +30,7 @@ export interface SeedProduct {
   timeRequired?: string;
   requiresEvaluation?: boolean;
   isLeadMagnet?: boolean;
+  priceOnRequest?: boolean;
   categorySlugs: string[];
   themes: Theme[];
   displayTier?: DisplayTier;
@@ -38,6 +39,8 @@ export interface SeedProduct {
   _fuente: string;
   /** Qué falta por definir con el cliente. */
   _pendiente?: string;
+  /** Campos redactados por nosotros y todavía sin aprobación del cliente. */
+  _propuesta?: string[];
 }
 
 export const ECOSISTEMA_CATEGORIES = [
@@ -61,12 +64,16 @@ export const ECOSISTEMA_PRODUCTS: SeedProduct[] = [
     format: "Cuestionario · 10-15 preguntas",
     whatYouLearn:
       "Nivel orientativo de riesgo, áreas que vale la pena evaluar y qué PHB realizar.",
+    idealFor:
+      "No sabes por dónde empezar y quieres una primera señal antes de invertir en algo.",
+    timeRequired: "3 minutos",
     categorySlugs: ["evaluate"],
     themes: ["prevencion"],
     displayTier: "comienza-aqui",
     featured: true,
     _fuente: "PDF-EV: 'PHB Health Check™ Gratis. 10-15 preguntas.'",
-    _pendiente: "idealFor y timeRequired no vienen en el documento.",
+    _propuesta: ["idealFor", "timeRequired"],
+    _pendiente: "Confirmar la duración real contra el cuestionario.",
   },
 
   // ---------- APRENDE ----------
@@ -80,12 +87,16 @@ export const ECOSISTEMA_PRODUCTS: SeedProduct[] = [
     shortDescription:
       "Guía para reconocer las señales de deterioro que muchas veces normalizamos o postergamos.",
     format: "PDF / E-book",
+    whatYouLearn:
+      "A reconocer las señales que el cuerpo lleva tiempo dando y que solemos normalizar, y por qué postergamos actuar aun sabiendo que algo no anda bien.",
+    idealFor: "Sospechas que algo no anda bien, pero nada duele lo suficiente todavía.",
     categorySlugs: ["aprende"],
     themes: ["prevencion", "comportamiento"],
     displayTier: "comienza-aqui",
     featured: true,
     _fuente: "PDF-2: título, descripción y precio $299 MXN textuales.",
-    _pendiente: "whatYouLearn, idealFor y timeRequired no vienen en el documento.",
+    _propuesta: ["whatYouLearn", "idealFor"],
+    _pendiente: "Falta timeRequired: necesito el número de páginas del PDF.",
   },
   {
     name: "50 biomarcadores que deberías conocer",
@@ -119,11 +130,15 @@ export const ECOSISTEMA_PRODUCTS: SeedProduct[] = [
     shortDescription:
       "Aprende qué estás viendo cuando recibes tus resultados y qué preguntas deberías hacer antes de ignorarlos o interpretarlos por tu cuenta.",
     format: "Masterclass",
+    whatYouLearn:
+      "A leer un reporte de laboratorio sin depender de que alguien te lo traduzca, y qué preguntar en tu siguiente consulta.",
+    idealFor: "Ya te hiciste estudios, los guardaste y no volviste a abrirlos.",
     categorySlugs: ["aprende"],
     themes: ["biomarcadores"],
     displayTier: "comienza-aqui",
     _fuente: "PDF-2: título, descripción y precio $790 MXN textuales.",
-    _pendiente: "whatYouLearn, idealFor y timeRequired no vienen en el documento.",
+    _propuesta: ["whatYouLearn", "idealFor"],
+    _pendiente: "Falta timeRequired: necesito la duración real del video.",
   },
 
   // ---------- FÓRMATE ----------
@@ -137,11 +152,12 @@ export const ECOSISTEMA_PRODUCTS: SeedProduct[] = [
     shortDescription:
       "Aprende a interpretar tu salud desde una perspectiva multisistémica.",
     format: "Curso",
+    priceOnRequest: true,
     categorySlugs: ["formate"],
     themes: ["biomarcadores", "longevidad"],
     _fuente: "BRIEF §3: nombre y descripción textuales.",
     _pendiente:
-      "PRECIO SIN DEFINIR. El brief solo da el rango de cursos ($1,500-$15,000 MXN).",
+      "PRECIO SIN DEFINIR (rango de cursos: $1,500-$15,000 MXN) y temario sin definir. Se muestra como 'Precio a confirmar' y no es comprable.",
   },
 
   // ---------- EVALÚATE ----------
@@ -191,14 +207,18 @@ export const ECOSISTEMA_PRODUCTS: SeedProduct[] = [
     price: 0,
     currency: "MXN",
     shortDescription: "30 días para convertir conciencia en acción.",
-    format: "Programa base",
+    format: "Programa base · 30 días",
+    idealFor: "Ya sabes qué deberías hacer, pero no logras sostenerlo.",
+    timeRequired: "30 días",
+    priceOnRequest: true,
     categorySlugs: ["actua"],
     themes: ["comportamiento"],
     displayTier: "populares",
     featured: true,
     _fuente: "BRIEF §4: nombre y descripción 'Programa base' textuales.",
+    _propuesta: ["idealFor"],
     _pendiente:
-      "PRECIO SIN DEFINIR. El brief da el rango $990-$15,000+ según acompañamiento.",
+      "PRECIO SIN DEFINIR (rango $990-$15,000+ según acompañamiento). Falta definir qué incluye. Se muestra como 'Precio a confirmar' y no es comprable.",
   },
 
   // ---------- REGENERACIÓN (nunca se compra) ----------
