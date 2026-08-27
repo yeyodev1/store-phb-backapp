@@ -43,6 +43,26 @@ export interface SeedProduct {
   _propuesta?: string[];
 }
 
+/**
+ * Fotografía real de Juan Román Garza (biblioteca Cloudinary de juanromangarza.com).
+ * Se usa como segunda imagen de ficha donde aporta credibilidad; la portada
+ * generada sigue siendo la primera para que las tarjetas se vean consistentes.
+ */
+const CLD = "https://res.cloudinary.com/drw5sn8qw/image/upload/w_1200,q_auto,f_auto";
+
+export const FOTOS_JUAN: Record<string, string> = {
+  // Juan dando una masterclass, micrófono en mano.
+  "entender-analisis-clinicos": `${CLD}/v1780095163/assets-juan/5dfa62f2-170e-42eb-867b-f98a1c816781.jpg`,
+  // Masterclass "La medicina del futuro · El potencial de las células madre".
+  "programa-regenerativo-metabolico": `${CLD}/v1780095163/assets-juan/5dfa62f2-170e-42eb-867b-f98a1c816781.jpg`,
+  // En escenario: "Longevidad Regenerativa".
+  "phb-actua-30": `${CLD}/v1780095165/assets-juan/71a520fc-beb0-4eb0-b7b6-3e97fef04266.jpg`,
+  // Presentación ejecutiva.
+  "phb-health-intelligence": `${CLD}/v1780095164/assets-juan/65feeba0-0dce-4cff-b63d-eb15952be89c.jpg`,
+  // Retrato de estudio.
+  "phb-basic": `${CLD}/v1780095160/assets-juan/1fdb1f14-5799-4c12-ba46-8590a824770b.jpg`,
+};
+
 export const ECOSISTEMA_CATEGORIES = [
   { name: "Aprende", slug: "aprende", order: 1 },
   { name: "Fórmate", slug: "formate", order: 2 },

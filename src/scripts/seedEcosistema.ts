@@ -8,6 +8,7 @@ import { Product } from "../models/Product";
 import {
   ECOSISTEMA_CATEGORIES,
   ECOSISTEMA_PRODUCTS,
+  FOTOS_JUAN,
 } from "../data/ecosistemaCatalog";
 
 /**
@@ -62,8 +63,11 @@ async function main() {
           ...datos,
           categorySlug: principal,
           category: categoryId[principal],
-          // Portada de marca generada por scripts/generate-covers.mjs del frontend.
-          images: [`/img/products/${p.slug}.svg`],
+          // Portada de marca primero (tarjetas consistentes); foto real después.
+          images: [
+            `/img/products/${p.slug}.svg`,
+            ...(FOTOS_JUAN[p.slug] ? [FOTOS_JUAN[p.slug]] : []),
+          ],
           isActive: true,
         },
       },
