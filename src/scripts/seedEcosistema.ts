@@ -62,7 +62,8 @@ async function main() {
           ...datos,
           categorySlug: principal,
           category: categoryId[principal],
-          // Sin imágenes todavía: las carga el cliente desde el panel admin.
+          // Portada de marca generada por scripts/generate-covers.mjs del frontend.
+          images: [`/img/products/${p.slug}.svg`],
           isActive: true,
         },
       },
