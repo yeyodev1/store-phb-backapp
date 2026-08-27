@@ -86,6 +86,12 @@ export interface IProduct extends Document {
   /** Producto gratuito de captación: pide email/WhatsApp en vez de cobrar. */
   isLeadMagnet: boolean;
 
+  /**
+   * El precio todavía no está definido por el negocio.
+   * La ficha muestra "Precio a confirmar" en vez de $0, y no se puede comprar.
+   */
+  priceOnRequest: boolean;
+
   // --- Taxonomía ---
   /** Multi-categoría. `categorySlug` se conserva como principal para compatibilidad. */
   categorySlugs: string[];
@@ -170,6 +176,7 @@ const ProductSchema = new Schema<IProduct>(
     ctaLabel: { type: String, trim: true },
 
     isLeadMagnet: { type: Boolean, default: false },
+    priceOnRequest: { type: Boolean, default: false },
 
     categorySlugs: { type: [String], default: [], index: true },
     themes: {
@@ -210,6 +217,7 @@ const ProductSchema = new Schema<IProduct>(
 ProductSchema.virtual("isPurchasable").get(function (this: IProduct) {
   if (this.requiresEvaluation || this.productType === "clinical") return false;
   if (this.isLeadMagnet) return false;
+  if (this.priceOnRequest) return false;
   if (this.productType === "physical") return this.stock > 0;
   return true;
 });
@@ -223,6 +231,7 @@ ProductSchema.virtual("resolvedCtaLabel").get(function (this: IProduct) {
   if (this.requiresEvaluation || this.productType === "clinical")
     return "Evaluar mi candidatura";
   if (this.isLeadMagnet) return "Descargar gratis";
+  if (this.priceOnRequest) return "Más información";
   switch (this.productType) {
     case "assessment":
       return "Comenzar evaluación";
