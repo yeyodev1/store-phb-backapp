@@ -16,8 +16,8 @@ import {
  * Es aditivo: hace upsert por slug y NO toca el catálogo Kangen existente.
  * Los dos catálogos conviven en la misma tienda.
  *
- *   pnpm ts-node src/scripts/seedEcosistema.ts --dry-run
- *   pnpm ts-node src/scripts/seedEcosistema.ts
+ *   pnpm seed:ecosistema -- --dry-run
+ *   pnpm seed:ecosistema
  */
 const DRY = process.argv.includes("--dry-run");
 

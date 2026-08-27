@@ -5,22 +5,20 @@
  * No borra ni reescribe nada del catálogo actual: solo rellena los campos
  * nuevos con valores coherentes para un bien físico.
  *
- *   pnpm ts-node src/scripts/migrateProductTypes.ts
- *   pnpm ts-node src/scripts/migrateProductTypes.ts --dry-run
+ *   pnpm migrate:products
+ *   pnpm migrate:products -- --dry-run
  */
+import dotenv from "dotenv";
+dotenv.config();
+
 import mongoose from "mongoose";
+import { dbConnect } from "../config/mongo";
 import { Product } from "../models/Product";
 
 const DRY = process.argv.includes("--dry-run");
-const MONGO_URI = process.env.MONGO_URI || process.env.MONGODB_URI;
 
 async function main() {
-  if (!MONGO_URI) {
-    console.error("Falta MONGO_URI en el entorno.");
-    process.exit(1);
-  }
-
-  await mongoose.connect(MONGO_URI);
+  await dbConnect();
   console.log("conectado\n");
 
   // Todo lo que ya existe es físico: son ionizadores, filtros y duchas.
