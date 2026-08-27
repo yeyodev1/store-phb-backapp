@@ -42,14 +42,53 @@ function partirNombre(nombre: string): { firstName: string; lastName: string } {
  * Nunca lanza: devuelve el resultado para que el lead se guarde igual en
  * nuestra base aunque el CRM esté caído o sin configurar.
  */
+/**
+ * Vía alternativa: un webhook de GoHighLevel.
+ * No requiere scopes en el token, solo que exista el trigger en la cuenta.
+ * Se usa cuando `GHL_LEADS_WEBHOOK` está configurado.
+ */
+async function enviarPorWebhook(lead: ILead, url: string): Promise<GhlResult> {
+  const { firstName, lastName } = partirNombre(lead.name);
+  try {
+    await axios.post(
+      url,
+      {
+        first_name: firstName,
+        last_name: lastName,
+        email: lead.email,
+        phone: normalizarTelefono(lead.whatsapp),
+        intent: lead.intent,
+        source: lead.source || "hub",
+        consent: lead.consent,
+        ...lead.answers,
+      },
+      { headers: { "Content-Type": "application/json" }, timeout: 10000 }
+    );
+    return { status: "synced" };
+  } catch (error: any) {
+    const mensaje = error?.response?.data?.message || error?.message || "error desconocido";
+    // Pista accionable: el token existe pero le falta permiso de escritura.
+    const sinScope = /not authorized for this scope/i.test(String(mensaje));
+    return {
+      status: "failed",
+      error: sinScope
+        ? "El token de GoHighLevel no tiene el scope contacts.write. Agrégalo en la Private Integration, o configura GHL_LEADS_WEBHOOK."
+        : String(mensaje).slice(0, 400),
+    };
+  }
+}
+
 export async function enviarLeadAGhl(lead: ILead): Promise<GhlResult> {
+  const webhook = process.env.GHL_LEADS_WEBHOOK;
+  if (webhook) return enviarPorWebhook(lead, webhook);
+
   const token = process.env.GHL_TOKEN;
   const locationId = process.env.GHL_LOCATION_ID;
 
   if (!token || !locationId) {
     return {
       status: "skipped",
-      error: "GHL_TOKEN o GHL_LOCATION_ID no configurados",
+      error: "Configura GHL_LEADS_WEBHOOK, o GHL_TOKEN + GHL_LOCATION_ID",
     };
   }
 
