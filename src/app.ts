@@ -12,6 +12,9 @@ const whitelist = [
   "http://localhost:8101",
   "https://store.powerhousebiotech.com",
   "https://www.powerhousebiotech.com",
+  // Hub del ecosistema: de ahí llegan los leads del funnel.
+  "https://salud.powerhousebiotech.com",
+  "https://phb.juanromangarza.com",
   process.env.FRONTEND_URL || "",
 ].filter(Boolean);
 

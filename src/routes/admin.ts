@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { adminOnly } from "../middlewares/adminOnly.middleware";
+import { listLeads, resyncLead } from "../controllers/lead.controller";
 import {
   adminListUsers,
   adminCreateUser,
@@ -57,5 +58,9 @@ router.delete("/categories/:id", adminDeleteCategory);
 router.get("/orders", adminListOrders);
 router.get("/orders/:id", adminGetOrder);
 router.put("/orders/:id/status", adminUpdateOrderStatus);
+
+// Leads del funnel de discriminación del hub.
+router.get("/leads", listLeads);
+router.post("/leads/:id/resync", resyncLead);
 
 export default router;
