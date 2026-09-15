@@ -3,6 +3,10 @@ import { authMiddleware } from "../middlewares/auth.middleware";
 import { adminOnly } from "../middlewares/adminOnly.middleware";
 import { listLeads, resyncLead } from "../controllers/lead.controller";
 import {
+  adminListTestimonials,
+  adminUpdateTestimonialStatus,
+} from "../controllers/testimonial.controller";
+import {
   adminListUsers,
   adminCreateUser,
   adminUpdateUser,
@@ -62,5 +66,9 @@ router.put("/orders/:id/status", adminUpdateOrderStatus);
 // Leads del funnel de discriminación del hub.
 router.get("/leads", listLeads);
 router.post("/leads/:id/resync", resyncLead);
+
+// Testimonios de Aprende: se publican solo al aprobarlos.
+router.get("/testimonials", adminListTestimonials);
+router.put("/testimonials/:id/status", adminUpdateTestimonialStatus);
 
 export default router;
